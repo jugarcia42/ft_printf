@@ -1,60 +1,148 @@
 # ft_printf
 
-## Descripción
+## About
 
-ft_printf es un proyecto cuyo objetivo es recrear una versión simplificada de la función `printf` de la librería estándar de C.
+ft_printf is a project from the 42 School curriculum that consists of recreating the behavior of the standard C `printf()` function. The objective is to gain a deeper understanding of variadic functions, formatted output, data conversion, and low-level character handling.
 
-El programa debe interpretar cadenas de formato y mostrar información por la salida estándar utilizando diferentes especificadores de conversión.
+By implementing a custom version of `printf`, this project strengthens knowledge of argument parsing, type management, and output formatting while reproducing the behavior of one of the most widely used functions in the C standard library.
 
-Este proyecto permite profundizar en el uso de funciones variádicas y en la conversión de distintos tipos de datos a texto.
+## The Challenge
 
-## Función principal
+The goal is to implement the following function:
 
 ```c
-int ft_printf(const char *format, ...);
+int	ft_printf(const char *format, ...);
 ```
 
-La función escribe la salida formateada en la salida estándar y devuelve el número de caracteres impresos.
+The function must parse a format string, process conversion specifiers, print the corresponding arguments, and return the total number of characters written.
 
-## Conversiones implementadas
+The implementation should closely mimic the behavior of the original `printf()` while using only the functions allowed by the project subject.
 
-| Especificador | Descripción |
-|-------------|-------------|
-| `%c` | Carácter |
-| `%s` | Cadena de caracteres |
-| `%p` | Dirección de memoria |
-| `%d` | Entero decimal con signo |
-| `%i` | Entero decimal |
-| `%u` | Entero decimal sin signo |
-| `%x` | Hexadecimal en minúsculas |
-| `%X` | Hexadecimal en mayúsculas |
-| `%%` | Símbolo `%` |
+## Supported Conversions
 
-## Conceptos trabajados
+### Character
 
-- Funciones variádicas
-- `stdarg.h`
-- Conversión de tipos
-- Manejo de cadenas
-- Recursividad
-- Gestión de memoria
-- Salida estándar
+```text
+%c
+```
 
-## Compilación
+Prints a single character.
 
-Para compilar el proyecto:
+### String
+
+```text
+%s
+```
+
+Prints a null-terminated string.
+
+### Pointer
+
+```text
+%p
+```
+
+Prints a memory address in hexadecimal format.
+
+### Decimal Integer
+
+```text
+%d
+%i
+```
+
+Prints a signed decimal integer.
+
+### Unsigned Integer
+
+```text
+%u
+```
+
+Prints an unsigned decimal integer.
+
+### Hexadecimal
+
+```text
+%x
+%X
+```
+
+Prints a number in hexadecimal format using lowercase or uppercase letters.
+
+### Percent Sign
+
+```text
+%%
+```
+
+Prints a literal percent sign.
+
+## Features
+
+- Variadic argument handling.
+- Custom format string parsing.
+- Support for all mandatory conversions.
+- Decimal and hexadecimal number conversion.
+- Pointer address formatting.
+- Character and string output.
+- Accurate character count return value.
+- Memory-safe implementation.
+
+## Usage
+
+Compile the project:
 
 ```bash
 make
 ```
 
-Esto generará la biblioteca:
+Include the header in your source code:
 
-```bash
-libftprintf.a
+```c
+#include "ft_printf.h"
 ```
 
-### Reglas disponibles
+Example:
+
+```c
+#include "ft_printf.h"
+
+int	main(void)
+{
+	ft_printf("Hello %s!\n", "World");
+	ft_printf("Number: %d\n", 42);
+	ft_printf("Hex: %x\n", 255);
+	return (0);
+}
+```
+
+Output:
+
+```text
+Hello World!
+Number: 42
+Hex: ff
+```
+
+## Project Structure
+
+```text
+ft_printf/
+├── includes/
+│   └── ft_printf.h
+├── src/
+│   ├── conversions/
+│   ├── printing/
+│   ├── parsing/
+│   └── utils/
+├── Makefile
+└── README.md
+```
+
+## Compilation
+
+Available Makefile rules:
 
 ```bash
 make
@@ -63,38 +151,56 @@ make fclean
 make re
 ```
 
-## Uso
-
-Incluye el header en tu proyecto:
-
-```c
-#include "ft_printf.h"
-```
-
-Y compila enlazando la biblioteca:
+The compilation generates:
 
 ```bash
-cc main.c libftprintf.a
+libftprintf.a
 ```
 
-### Ejemplo
+## How It Works
+
+### Format Parsing
+
+The function scans the format string character by character. When a `%` symbol is found, the following character determines the conversion to apply.
+
+### Variadic Arguments
+
+Arguments are accessed using the `<stdarg.h>` library:
 
 ```c
-ft_printf("Nombre: %s\n", "Juan");
-ft_printf("Edad: %d\n", 25);
-ft_printf("Puntero: %p\n", ptr);
+va_start()
+va_arg()
+va_end()
 ```
 
-## Funcionamiento
+These macros allow the function to process an unknown number of arguments.
 
-La función analiza la cadena de formato carácter por carácter. Cuando encuentra un especificador precedido por `%`, selecciona la conversión correspondiente y muestra el valor recibido como argumento.
+### Number Conversion
 
-Al finalizar, devuelve el número total de caracteres impresos.
+Integers are converted to their string representation before being written to the standard output.
 
-## Objetivo
+### Output Management
 
-El objetivo principal es comprender cómo funcionan internamente las funciones variádicas y cómo implementar un sistema de salida formateada similar al de la función `printf` estándar.
+All characters are written directly to the standard output while maintaining an accurate count of printed characters.
 
-## Autor
+## Learning Objectives
 
-Proyecto realizado como parte del programa de formación de 42.
+Through this project, I gained experience with:
+
+- Variadic functions.
+- Format string parsing.
+- Data type conversions.
+- Number representation systems.
+- String manipulation.
+- Output management.
+- Modular programming.
+- Memory management.
+
+## Technologies
+
+- C
+- Standard Library Macros (`stdarg.h`)
+- Unix/Linux System Calls
+- Makefile
+
+Developed as part of the 42 School curriculum.
